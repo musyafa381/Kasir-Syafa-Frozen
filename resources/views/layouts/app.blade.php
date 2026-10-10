@@ -50,45 +50,44 @@
         class="fixed top-0 left-0 right-0 z-50 w-full glass-navbar transition-all duration-250"
         :class="isScrolled ? 'is-scrolled' : ''"
     >
-        <div class="w-full flex items-center justify-between px-4 sm:px-6 lg:px-8 py-2.5 sm:py-3">
+        <div class="w-full flex items-center justify-between px-3.5 sm:px-6 lg:px-8 h-11 sm:h-12">
             <!-- Left: Mobile Toggle + Brand + Page Title -->
-            <div class="flex items-center gap-3 min-w-0">
+            <div class="flex items-center gap-2.5 sm:gap-3 min-w-0">
                 <button 
                     type="button"
                     @click="sidebarOpen = !sidebarOpen" 
-                    class="md:hidden p-1.5 rounded-xl hover:bg-white/50 transition text-slate-700 hover:text-[#163144] cursor-pointer"
+                    class="md:hidden p-1 rounded-lg hover:bg-white/50 transition text-slate-700 hover:text-[#163144] cursor-pointer"
                 >
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
                 </button>
 
-                <a href="{{ route('admin.dashboard') }}" wire:navigate.hover class="flex items-center gap-2.5 sm:gap-3 group">
-                    <img src="{{ asset('images/logo.svg') }}" alt="Syafa Frozen Food" class="w-9 h-9 sm:w-10 sm:h-10 object-contain transition-transform duration-300 group-hover:scale-105 drop-shadow-xs">
-                    <span class="text-xs sm:text-sm font-black text-[#163144] tracking-tight uppercase">Syafa Frozen Food</span>
+                <a href="{{ route('admin.dashboard') }}" wire:navigate.hover class="flex items-center gap-2 sm:gap-2.5 group">
+                    <img src="{{ asset('images/logo.svg') }}" alt="Syafa Frozen Food" class="w-7 h-7 sm:w-8 sm:h-8 object-contain transition-transform duration-300 group-hover:scale-105 drop-shadow-xs">
+                    <span class="text-xs sm:text-[13px] font-black text-[#163144] tracking-tight uppercase">Syafa Frozen Food</span>
                 </a>
 
-                <div class="h-4 w-px bg-slate-400/50 hidden sm:block"></div>
+                <div class="h-3.5 w-px bg-slate-400/50 hidden sm:block"></div>
 
-                <h2 class="text-xs sm:text-[13px] font-extrabold text-slate-700 truncate hidden sm:block">
+                <h2 class="text-[11px] sm:text-xs font-extrabold text-slate-700 truncate hidden sm:block">
                     {{ $title ?? 'Dashboard' }}
                 </h2>
             </div>
 
-            <!-- Right: POS Kasir Quick Button + User Info -->
-            <div class="flex items-center gap-2.5 sm:gap-3">
-
+            <!-- Right: User Info -->
+            <div class="flex items-center gap-2 sm:gap-2.5">
                 <span class="hidden md:inline text-xs font-bold text-[#163144]">{{ auth()->user()->name ?? 'Admin' }}</span>
                 <div class="relative">
-                    <div class="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-white/85 text-[#163144] font-black text-xs flex items-center justify-center border border-white shadow-2xs uppercase">
+                    <div class="w-7 h-7 rounded-full bg-white/85 text-[#163144] font-black text-[11px] flex items-center justify-center border border-white shadow-2xs uppercase">
                         {{ substr(auth()->user()->name ?? 'U', 0, 1) }}
                     </div>
-                    <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 border-2 border-white absolute -bottom-0.5 -right-0.5"></span>
+                    <span class="w-2 h-2 rounded-full bg-emerald-500 border border-white absolute -bottom-0.5 -right-0.5"></span>
                 </div>
             </div>
         </div>
     </header>
 
     <!-- Main Container Layout (Sidebar + Content Below Fixed Navbar) -->
-    <div class="w-full flex-1 flex flex-col md:flex-row relative pt-[53px]">
+    <div class="w-full flex-1 flex flex-col md:flex-row relative pt-11 sm:pt-12">
         
         <!-- Mobile Sidebar Backdrop (Smooth Blur & Fade) -->
         <div 
@@ -131,7 +130,7 @@
                 }
             }"
             :class="sidebarOpen ? 'translate-x-0 shadow-2xl' : '-translate-x-full md:translate-x-0'"
-            class="fixed md:sticky top-0 md:top-[53px] bottom-0 left-0 z-40 w-72 lg:w-76 h-dvh md:h-[calc(100vh-53px)] frosted-sidebar text-slate-700 flex flex-col shrink-0 transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)]"
+            class="fixed md:sticky top-0 md:top-12 bottom-0 left-0 z-40 w-72 lg:w-76 h-dvh md:h-[calc(100vh-48px)] frosted-sidebar text-slate-700 flex flex-col shrink-0 transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)]"
         >
             <!-- Mobile Header Bar inside Drawer -->
             <div class="flex md:hidden items-center justify-between px-4 pt-3 pb-2 border-b border-white/40 shrink-0">
