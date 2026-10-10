@@ -74,52 +74,25 @@
             </div>
 
             <!-- Right: User Info & Quick Logout -->
-            <div x-data="{ userMenuOpen: false }" class="relative flex items-center gap-2 sm:gap-2.5" @click.outside="userMenuOpen = false">
+            <div class="flex items-center gap-2 sm:gap-2.5">
+                <span class="hidden md:inline text-xs font-bold text-[#163144]">{{ auth()->user()->name ?? 'Admin' }}</span>
+                <div class="relative">
+                    <div class="w-7 h-7 rounded-full bg-white/85 text-[#163144] font-black text-[11px] flex items-center justify-center border border-white shadow-2xs uppercase">
+                        {{ substr(auth()->user()->name ?? 'U', 0, 1) }}
+                    </div>
+                    <span class="w-2 h-2 rounded-full bg-emerald-500 border border-white absolute -bottom-0.5 -right-0.5"></span>
+                </div>
+
+                <!-- Tombol Cepat Keluar di Navbar Atas (Selalu Tampak di Layar Tablet & Desktop) -->
                 <button 
                     type="button" 
-                    @click="userMenuOpen = !userMenuOpen"
-                    class="flex items-center gap-1.5 sm:gap-2 p-0.5 sm:px-2 sm:py-1 rounded-full hover:bg-white/60 transition cursor-pointer"
-                    title="Menu Akun & Logout"
+                    @click="window.customConfirm ? window.customConfirm({ title: 'Konfirmasi Keluar', message: 'Apakah Anda yakin ingin mengakhiri sesi kasir dan keluar dari sistem aplikasi?', confirmText: 'Ya, Keluar', onConfirm: () => document.getElementById('global-logout-form').submit() }) : document.getElementById('global-logout-form').submit()"
+                    class="flex items-center gap-1 px-2.5 py-1 rounded-full bg-rose-500/15 hover:bg-rose-500 text-rose-700 hover:text-white border border-rose-300/40 text-[11px] font-black transition-all cursor-pointer shadow-2xs ml-0.5"
+                    title="Keluar dari sesi aplikasi"
                 >
-                    <span class="hidden md:inline text-xs font-bold text-[#163144]">{{ auth()->user()->name ?? 'Admin' }}</span>
-                    <div class="relative">
-                        <div class="w-7 h-7 rounded-full bg-white/85 text-[#163144] font-black text-[11px] flex items-center justify-center border border-white shadow-2xs uppercase">
-                            {{ substr(auth()->user()->name ?? 'U', 0, 1) }}
-                        </div>
-                        <span class="w-2 h-2 rounded-full bg-emerald-500 border border-white absolute -bottom-0.5 -right-0.5"></span>
-                    </div>
-                    <svg class="w-3 h-3 text-slate-500 transition-transform duration-200 hidden sm:block" :class="userMenuOpen ? 'rotate-180 text-[#163144]' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"/></svg>
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
+                    <span>Keluar</span>
                 </button>
-
-                <!-- Dropdown Menu -->
-                <div 
-                    x-show="userMenuOpen" 
-                    x-cloak
-                    x-transition:enter="transition ease-out duration-150"
-                    x-transition:enter-start="opacity-0 translate-y-1 scale-95"
-                    x-transition:enter-end="opacity-100 translate-y-0 scale-100"
-                    x-transition:leave="transition ease-in duration-100"
-                    x-transition:leave-start="opacity-100 translate-y-0 scale-100"
-                    x-transition:leave-end="opacity-0 translate-y-1 scale-95"
-                    class="absolute right-0 top-full mt-1.5 w-48 rounded-2xl bg-white/95 backdrop-blur-xl border border-white shadow-xl shadow-[#163144]/15 p-1.5 z-50 text-slate-700"
-                >
-                    <div class="px-2.5 py-1.5 border-b border-slate-100 mb-1">
-                        <p class="text-xs font-black text-[#163144] truncate">{{ auth()->user()->name ?? 'Admin' }}</p>
-                        <p class="text-[10px] text-slate-400 capitalize font-medium">{{ auth()->user()->role ?? 'Kasir' }}</p>
-                    </div>
-                    <a href="{{ route('pos.index') }}" class="flex items-center gap-2 px-2.5 py-1.5 rounded-xl text-xs font-bold text-slate-700 hover:bg-slate-100 hover:text-[#163144] transition">
-                        <svg class="w-3.5 h-3.5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
-                        <span>POS Kasir</span>
-                    </a>
-                    <button 
-                        type="button" 
-                        @click="userMenuOpen = false; window.customConfirm ? window.customConfirm({ title: 'Konfirmasi Keluar', message: 'Apakah Anda yakin ingin mengakhiri sesi kasir dan keluar dari sistem aplikasi?', confirmText: 'Ya, Keluar', onConfirm: () => document.getElementById('logout-form').submit() }) : document.getElementById('logout-form').submit()"
-                        class="w-full flex items-center gap-2 px-2.5 py-1.5 rounded-xl text-xs font-extrabold text-rose-600 hover:bg-rose-50 transition cursor-pointer text-left"
-                    >
-                        <svg class="w-3.5 h-3.5 text-rose-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
-                        <span>Keluar (Logout)</span>
-                    </button>
-                </div>
             </div>
         </div>
     </header>
@@ -168,7 +141,7 @@
                 }
             }"
             :class="sidebarOpen ? 'translate-x-0 shadow-2xl' : '-translate-x-full md:translate-x-0'"
-            class="fixed md:sticky top-0 md:top-12 bottom-0 left-0 z-40 w-72 lg:w-76 h-dvh md:h-[calc(100dvh-48px)] max-h-[calc(100dvh-48px)] frosted-sidebar text-slate-700 flex flex-col shrink-0 overflow-hidden transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)]"
+            class="fixed md:sticky top-0 md:top-12 bottom-0 left-0 z-40 w-72 lg:w-76 h-dvh md:h-[calc(100vh-48px)] frosted-sidebar text-slate-700 flex flex-col shrink-0 transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)]"
         >
             <!-- Mobile Header Bar inside Drawer -->
             <div class="flex md:hidden items-center justify-between px-4 pt-3 pb-2 border-b border-white/40 shrink-0">
@@ -680,68 +653,56 @@
                 @endif
             </nav>
 
-            <!-- Bottom Dock Area (Pinned firmly at bottom of sidebar on all screen sizes) -->
-            <div class="px-3 py-2 shrink-0 space-y-1.5 mt-auto border-t border-white/50 bg-white/40 backdrop-blur-md shadow-[0_-4px_16px_rgba(22,49,68,0.04)]">
-                <!-- Mini Icon Bar -->
-                <div class="flex items-center justify-around py-0 text-slate-400">
-                    <!-- Icon 1: Mode Matahari (Belum Fungsi Dulu) -->
-                    <button type="button" title="Mode Tampilan (Segera Hadir)" class="p-1 rounded-xl text-slate-300 opacity-60 cursor-not-allowed">
-                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
-                    </button>
-
-                    <!-- Icon 2: Cloud Backup -->
-                    <a 
-                        href="{{ route('admin.backup.index') }}" 
-                        wire:navigate.hover 
-                        title="Cloud Backup & Database" 
-                        class="p-1 rounded-xl transition {{ request()->routeIs('admin.backup.*') ? 'bg-white/90 text-[#163144] shadow-xs font-bold' : 'hover:bg-white/50 hover:text-[#163144]' }}"
-                    >
-                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4"/></svg>
-                    </a>
-
-                    <!-- Icon 3: Pengaturan Struk -->
-                    <a 
-                        href="{{ route('admin.settings.receipt') }}" 
-                        wire:navigate.hover 
-                        title="Pengaturan Struk Kasir" 
-                        class="p-1 rounded-xl transition {{ request()->routeIs('admin.settings.receipt*') ? 'bg-white/90 text-[#163144] shadow-xs font-bold' : 'hover:bg-white/50 hover:text-[#163144]' }}"
-                    >
-                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
-                    </a>
-
-                    <!-- Icon 4: Informasi Toko -->
-                    <a 
-                        href="{{ route('admin.settings.store') }}" 
-                        wire:navigate.hover 
-                        title="Informasi Toko" 
-                        class="p-1 rounded-xl transition {{ request()->routeIs('admin.settings.store*') ? 'bg-white/90 text-[#163144] shadow-xs font-bold' : 'hover:bg-white/50 hover:text-[#163144]' }}"
-                    >
-                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                    </a>
-                </div>
-
-                <!-- Bottom Logout Button & User Avatar -->
-                <div class="flex items-center gap-1.5 pt-0">
-                    <form id="logout-form" method="POST" action="{{ route('logout') }}" class="flex-1">
-                        @csrf
-                        <button 
-                            type="button" 
-                            @click="window.customConfirm ? window.customConfirm({ title: 'Konfirmasi Keluar', message: 'Apakah Anda yakin ingin mengakhiri sesi kasir dan keluar dari sistem aplikasi?', confirmText: 'Ya, Keluar', onConfirm: () => document.getElementById('logout-form').submit() }) : document.getElementById('logout-form').submit()"
-                            class="w-full py-1.5 px-3 rounded-full bg-rose-600/90 hover:bg-rose-700 active:scale-[0.98] text-white font-extrabold text-xs text-center flex items-center justify-center gap-1.5 transition-all shadow-xs border border-rose-400/30 cursor-pointer group"
-                        >
-                            <svg class="w-3.5 h-3.5 text-rose-100 transition-transform group-hover:-translate-x-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
-                            </svg>
-                            <span class="tracking-wide">Keluar (Logout)</span>
-                        </button>
-                    </form>
-
-                    <div class="relative group cursor-pointer" title="{{ auth()->user()->name ?? 'User' }} ({{ auth()->user()->role ?? 'Admin' }})">
-                        <div class="w-7 h-7 rounded-full bg-[#163144] text-white font-black text-xs flex items-center justify-center shadow-xs uppercase border border-white/60 group-hover:scale-105 transition-transform">
-                            {{ substr(auth()->user()->name ?? 'U', 0, 1) }}
+            <!-- Bottom Dock Area (Unified User Profile & Fast Actions) -->
+            <div class="px-3 pt-2 pb-5 shrink-0 mt-auto">
+                <div class="p-2.5 rounded-2xl glass-card-plek bg-white/75 backdrop-blur-xl border border-white/85 shadow-2xs space-y-2">
+                    <!-- User Info & Utility Actions Row -->
+                    <div class="flex items-center justify-between gap-2">
+                        <div class="flex items-center gap-2 min-w-0">
+                            <div class="relative shrink-0">
+                                <div class="w-8 h-8 rounded-full bg-[#163144] text-white font-black text-xs flex items-center justify-center uppercase shadow-xs">
+                                    {{ substr(auth()->user()->name ?? 'U', 0, 1) }}
+                                </div>
+                                <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 border-2 border-white absolute -bottom-0.5 -right-0.5 shadow-2xs"></span>
+                            </div>
+                            <div class="min-w-0 flex-1">
+                                <p class="text-xs font-black text-[#163144] truncate leading-tight">{{ auth()->user()->name ?? 'Admin' }}</p>
+                                <p class="text-[10px] text-slate-500 font-bold capitalize leading-tight">{{ auth()->user()->role ?? 'Kasir' }}</p>
+                            </div>
                         </div>
-                        <span class="w-2 h-2 rounded-full bg-emerald-500 border-2 border-white absolute -bottom-0.5 -right-0.5 shadow-2xs"></span>
+
+                        <!-- Mini Settings Shortcuts (Backup, Struk) -->
+                        <div class="flex items-center gap-1 shrink-0 text-slate-500">
+                            <a 
+                                href="{{ route('admin.backup.index') }}" 
+                                wire:navigate.hover 
+                                title="Cloud Backup Database" 
+                                class="p-1 rounded-lg hover:bg-white/80 hover:text-[#163144] transition {{ request()->routeIs('admin.backup.*') ? 'bg-white text-[#163144] shadow-2xs font-bold' : '' }}"
+                            >
+                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4"/></svg>
+                            </a>
+                            <a 
+                                href="{{ route('admin.settings.receipt') }}" 
+                                wire:navigate.hover 
+                                title="Pengaturan Struk Kasir" 
+                                class="p-1 rounded-lg hover:bg-white/80 hover:text-[#163144] transition {{ request()->routeIs('admin.settings.receipt*') ? 'bg-white text-[#163144] shadow-2xs font-bold' : '' }}"
+                            >
+                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                            </a>
+                        </div>
                     </div>
+
+                    <!-- Clean Full-Width Logout Button inside Card -->
+                    <button 
+                        type="button" 
+                        @click="window.customConfirm ? window.customConfirm({ title: 'Konfirmasi Keluar', message: 'Apakah Anda yakin ingin mengakhiri sesi kasir dan keluar dari sistem aplikasi?', confirmText: 'Ya, Keluar', onConfirm: () => document.getElementById('global-logout-form').submit() }) : document.getElementById('global-logout-form').submit()"
+                        class="w-full py-2 px-3 rounded-xl bg-rose-500/10 hover:bg-rose-600 text-rose-700 hover:text-white border border-rose-200/50 hover:border-rose-600 font-extrabold text-xs text-center flex items-center justify-center gap-1.5 transition-all duration-200 cursor-pointer shadow-2xs group"
+                    >
+                        <svg class="w-3.5 h-3.5 text-rose-600 group-hover:text-white transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
+                        </svg>
+                        <span class="tracking-wide">Keluar (Logout)</span>
+                    </button>
                 </div>
             </div>
         </aside>
@@ -851,6 +812,11 @@
             </div>
         </div>
     </div>
+
+    <!-- Global Form for Logout (Submittable from any button or modal callback) -->
+    <form id="global-logout-form" method="POST" action="{{ route('logout') }}" class="hidden">
+        @csrf
+    </form>
 
     <!-- Apple iOS / Dynamic Island Top Notification Alerts -->
     <div 
