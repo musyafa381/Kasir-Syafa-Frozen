@@ -586,8 +586,8 @@
                 </div>
             </main>
 
-            <!-- ================= KOLOM KANAN (SIDEBAR KERANJANG - DESKTOP) ================= -->
-            <aside class="hidden lg:flex flex-col w-96 xl:w-[400px] shrink-0 pos-glass-aside h-full">
+            <!-- ================= KOLOM KANAN (SIDEBAR KERANJANG - DESKTOP & TABLET) ================= -->
+            <aside class="hidden lg:flex flex-col w-80 xl:w-96 2xl:w-[400px] shrink-0 pos-glass-aside h-full">
 
                 <!-- Cart Header -->
                 <div class="p-3.5 border-b border-white/60 flex items-center justify-between bg-transparent shrink-0">

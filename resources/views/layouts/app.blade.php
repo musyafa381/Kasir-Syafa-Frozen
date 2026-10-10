@@ -40,9 +40,9 @@
     </style>
 </head>
 <body class="h-full text-slate-800 antialiased selection:bg-[#a0bddb]/40 selection:text-[#163144] font-sans p-0 m-0 min-h-screen" 
-      :class="sidebarOpen ? 'overflow-hidden md:overflow-auto' : ''"
+      :class="sidebarOpen && window.innerWidth < 1280 ? 'overflow-hidden' : ''"
       x-data="{ sidebarOpen: false, isScrolled: false }"
-      x-effect="if (window.innerWidth < 768) { document.documentElement.classList.toggle('overflow-hidden', sidebarOpen); document.body.classList.toggle('overflow-hidden', sidebarOpen); }"
+      x-effect="if (window.innerWidth < 1280) { document.documentElement.classList.toggle('overflow-hidden', sidebarOpen); document.body.classList.toggle('overflow-hidden', sidebarOpen); }"
       @scroll.window="isScrolled = (window.pageYOffset > 15)">
 
     <!-- Full-Width Top Navbar (Fixed Edge-to-Edge from Far Left to Far Right) -->
@@ -51,12 +51,13 @@
         :class="isScrolled ? 'is-scrolled' : ''"
     >
         <div class="w-full flex items-center justify-between px-3.5 sm:px-6 lg:px-8 h-11 sm:h-12">
-            <!-- Left: Mobile Toggle + Brand + Page Title -->
-            <div class="flex items-center gap-2.5 sm:gap-3 min-w-0">
+            <!-- Left: Mobile & Tablet Toggle + Brand + Page Title -->
+            <div class="flex items-center gap-2 sm:gap-3 min-w-0">
                 <button 
                     type="button"
                     @click="sidebarOpen = !sidebarOpen" 
-                    class="md:hidden p-1 rounded-lg hover:bg-white/50 transition text-slate-700 hover:text-[#163144] cursor-pointer"
+                    class="p-1 sm:p-1.5 rounded-lg hover:bg-white/60 transition text-slate-700 hover:text-[#163144] cursor-pointer shrink-0"
+                    title="Buka / Tutup Menu Navigasi"
                 >
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
                 </button>
@@ -87,9 +88,9 @@
     </header>
 
     <!-- Main Container Layout (Sidebar + Content Below Fixed Navbar) -->
-    <div class="w-full flex-1 flex flex-col md:flex-row relative pt-11 sm:pt-12">
+    <div class="w-full flex-1 flex flex-col xl:flex-row relative pt-11 sm:pt-12">
         
-        <!-- Mobile Sidebar Backdrop (Smooth Blur & Fade) -->
+        <!-- Mobile & Tablet Sidebar Backdrop (Smooth Blur & Fade) -->
         <div 
             x-show="sidebarOpen" 
             x-cloak
@@ -102,10 +103,10 @@
             @click="sidebarOpen = false" 
             @touchmove.prevent
             @wheel.prevent
-            class="fixed inset-0 bg-[#0e1e2b]/55 z-40 md:hidden backdrop-blur-md"
+            class="fixed inset-0 bg-[#0e1e2b]/55 z-40 xl:hidden backdrop-blur-md"
         ></div>
 
-        <!-- Sleek Frosted Sidebar (Smooth Spring Slide, Elegant on Desktop & Mobile) -->
+        <!-- Sleek Frosted Sidebar (Smooth Spring Slide, Elegant on Desktop, Tablet & Mobile) -->
         <aside 
             x-data="{ 
                 searchMenu: '',
@@ -129,11 +130,11 @@
                     return text.toLowerCase().includes(this.searchMenu.toLowerCase());
                 }
             }"
-            :class="sidebarOpen ? 'translate-x-0 shadow-2xl' : '-translate-x-full md:translate-x-0'"
-            class="fixed md:sticky top-0 md:top-12 bottom-0 left-0 z-40 w-72 lg:w-76 h-dvh md:h-[calc(100vh-48px)] frosted-sidebar text-slate-700 flex flex-col shrink-0 transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)]"
+            :class="sidebarOpen ? 'translate-x-0 shadow-2xl xl:shadow-none' : '-translate-x-full xl:translate-x-0'"
+            class="fixed xl:sticky top-0 xl:top-12 bottom-0 left-0 z-40 w-72 lg:w-76 h-dvh xl:h-[calc(100vh-48px)] frosted-sidebar text-slate-700 flex flex-col shrink-0 transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)]"
         >
-            <!-- Mobile Header Bar inside Drawer -->
-            <div class="flex md:hidden items-center justify-between px-4 pt-3 pb-2 border-b border-white/40 shrink-0">
+            <!-- Mobile & Tablet Header Bar inside Drawer -->
+            <div class="flex xl:hidden items-center justify-between px-4 pt-3 pb-2 border-b border-white/40 shrink-0">
                 <span class="text-xs font-black text-[#163144] tracking-tight uppercase">Navigasi Kasir</span>
                 <button 
                     type="button" 
@@ -166,7 +167,7 @@
             </div>
 
             <!-- Accordion Nav Links List -->
-            <nav class="flex-1 overflow-y-auto px-4 py-2 pb-16 space-y-1.5 no-scrollbar">
+            <nav @click="if (window.innerWidth < 1280 && $event.target.closest('a')) sidebarOpen = false" class="flex-1 overflow-y-auto px-4 py-2 pb-16 space-y-1.5 no-scrollbar">
                 @if(auth()->user()->isAdmin())
                 <!-- Dropdown 1: Penjualan (TRX) -->
                 @php
