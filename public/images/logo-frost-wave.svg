@@ -1,0 +1,19 @@
+<svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+        <linearGradient id="frostGrad" x1="20" y1="20" x2="180" y2="180" gradientUnits="userSpaceOnUse">
+            <stop offset="0%" stop-color="#38BDF8" />
+            <stop offset="45%" stop-color="#0284C7" />
+            <stop offset="100%" stop-color="#163144" />
+        </linearGradient>
+        <linearGradient id="iceAccent" x1="0" y1="0" x2="200" y2="200" gradientUnits="userSpaceOnUse">
+            <stop offset="0%" stop-color="#BAE6FD" />
+            <stop offset="100%" stop-color="#0284C7" />
+        </linearGradient>
+    </defs>
+    <!-- The Frost Wave 'S' -->
+    <path d="M145 35 L165 55 C165 55 140 75 110 75 C85 75 60 85 60 105 C60 120 75 130 100 135 C135 142 155 155 155 180 C155 210 120 220 85 215 L65 195 C65 195 90 200 115 195 C135 190 135 175 130 165 C120 155 100 150 75 145 C45 138 35 120 35 95 C35 65 70 50 115 50 C130 50 145 35 145 35 Z" 
+          transform="translate(5, -15) scale(0.9)"
+          fill="url(#frostGrad)" />
+    <!-- Chiseled Top Glint -->
+    <path d="M135 17 L153 35 L125 45 Z" fill="url(#iceAccent)" />
+</svg>

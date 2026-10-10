@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Offline - Syafa Frozen Food</title>
+    <style>
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            background-color: #f8fafc;
+            color: #1e293b;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+        }
+        .card {
+            background: #ffffff;
+            padding: 32px 24px;
+            border-radius: 24px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            max-width: 400px;
+            width: 100%;
+            border: 1px solid #e2e8f0;
+        }
+        .icon {
+            width: 56px;
+            height: 56px;
+            background: #eff6ff;
+            color: #2563eb;
+            border-radius: 16px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 16px;
+        }
+        h1 {
+            font-size: 18px;
+            font-weight: 800;
+            margin: 0 0 8px;
+        }
+        p {
+            font-size: 13px;
+            color: #64748b;
+            margin: 0 0 24px;
+            line-height: 1.5;
+        }
+        .btn {
+            background: #2563eb;
+            color: #ffffff;
+            font-weight: 700;
+            font-size: 13px;
+            padding: 10px 20px;
+            border-radius: 12px;
+            border: none;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <div class="icon">
+            <svg width="28" height="28" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+            </svg>
+        </div>
+        <h1>Koneksi Terputus</h1>
+        <p>Anda sedang offline atau server sedang tidak terjangkau. Silakan periksa koneksi Wi-Fi / data internet Anda.</p>
+        <button class="btn" onclick="window.location.reload()">Coba Muat Ulang</button>
+    </div>
+</body>
+</html>

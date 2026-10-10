@@ -1,0 +1,95 @@
+========================================================================
+             SYAFA FROZEN FOOD — BRAND IDENTITY ASSETS
+========================================================================
+
+Terima kasih telah menggunakan paket identitas merek resmi Syafa Frozen Food.
+Paket ini berisi seluruh varian logo siap pakai untuk keperluan digital, cetak,
+kemasan produk, merchandise, dan signage toko fisik.
+
+------------------------------------------------------------------------
+1. KONSEP LOGO: THE TWIN ICE DROPS "S"
+------------------------------------------------------------------------
+Siluet huruf "S" yang dibentuk oleh dua tetesan es beku aerodinamis yang saling
+melengkapi dan berhadapan:
+- Tetesan Atas (Cyan Ice): Melambangkan kesegaran es murni, kebersihan, dan higienitas.
+- Tetesan Bawah (Arctic Navy): Melambangkan stabilitas suhu dingin, keamanan mutu, 
+  dan profesionalisme toko frozen food terpercaya.
+
+------------------------------------------------------------------------
+2. PALET WARNA RESMI (OFFICIAL BRAND COLORS)
+------------------------------------------------------------------------
+1. Cyan Ice (Kesegaran Es)
+   - HEX  : #38BDF8
+   - RGB  : 56, 189, 248
+   - CMYK : 66%, 13%, 0%, 0%
+
+2. Arctic Frost (Biru Beku Utama)
+   - HEX  : #0284C7
+   - RGB  : 2, 132, 199
+   - CMYK : 84%, 40%, 0%, 0%
+
+3. Deep Arctic Navy (Ketegasan & Kepercayaan)
+   - HEX  : #163144
+   - RGB  : 22, 49, 68
+   - CMYK : 92%, 70%, 48%, 47%
+
+4. Pure Ice White (Latar Belakang Bersih)
+   - HEX  : #FFFFFF
+   - RGB  : 255, 255, 255
+   - CMYK : 0%, 0%, 0%, 0%
+
+------------------------------------------------------------------------
+3. PANDUAN PENGGUNAAN BERDASARKAN MEDIA (APPLICATION GUIDELINES)
+------------------------------------------------------------------------
+A. Logo Mark (Icon Saja):
+   - Avatar profil media sosial (Instagram, WhatsApp Business, TikTok).
+   - Favicon tab website dan icon aplikasi PWA kasir di Android & iOS.
+   - Watermark video promosi dan cap stempel kecil.
+
+B. Logo Horizontal (Logo + Teks Samping):
+   - Header website, dashboard admin, dan nota/struk thermal kasir.
+   - Papan nama toko luar (Signboard / Neon box memanjang).
+   - Kop surat resmi, faktur supplier, dan email signature.
+   - Spanduk & banner horizontal toko.
+
+C. Logo Vertical / Stacked (Logo di Atas + Teks di Bawah):
+   - Standing banner (Roll up banner) di depan ruko / cabang.
+   - Tas kresek / totebag belanja ramah lingkungan.
+   - Kaos / celemek (apron) seragam kasir & karyawan.
+   - Poster promo diskon bulanan.
+
+D. Packaging Seal (Stiker Bulat Segel Kemasan):
+   - Stiker segel kemasan plastik vacuum pack, standing pouch, atau thinwall box.
+   - Menegaskan jaminan higienis dan kesegaran produk makanan beku.
+
+------------------------------------------------------------------------
+4. DAFTAR FILE DALAM PAKET INI
+------------------------------------------------------------------------
+[Format Vektor SVG (Skala Bebas Tanpa Pecah untuk Percetakan)]
+- logo-mark-transparent.svg
+- logo-mark-white-bg.svg
+- logo-mark-dark-bg.svg
+- logo-mark-badge.svg
+- logo-horizontal-transparent.svg
+- logo-horizontal-white-bg.svg
+- logo-horizontal-dark-bg.svg
+- logo-vertical-transparent.svg
+- logo-vertical-white-bg.svg
+- logo-vertical-dark-bg.svg
+- logo-packaging-seal.svg
+
+[Format Gambar PNG Ultra HD (Resolusi Tinggi 2000px - 2400px)]
+- logo-mark-transparent.png
+- logo-mark-white-bg.png
+- logo-mark-dark-bg.png
+- logo-mark-badge.png
+- logo-horizontal-transparent.png
+- logo-horizontal-white-bg.png
+- logo-horizontal-dark-bg.png
+- logo-vertical-transparent.png
+- logo-vertical-white-bg.png
+- logo-vertical-dark-bg.png
+- logo-packaging-seal.png
+
+&copy; 2026 Syafa Frozen Food. Hak Cipta Dilindungi.
+========================================================================

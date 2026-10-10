@@ -1,0 +1,282 @@
+/* ========================================================================= */
+/* POS TERMINAL — LIQUID / WATER GLASS THEME (selaras dengan halaman dashboard) */
+/* Scope: .pos-glass  (root halaman POS)                                       */
+/* Memakai @layer utilities + :where() agar hover:/focus:/active: Tailwind      */
+/* tetap menang atas style dasar (tidak menimpa state interaktif).             */
+/* ========================================================================= */
+
+@layer utilities {
+
+    /* ---------- Ambient aurora behind everything (refraction feel) ---------- */
+    .pos-glass {
+        position: relative;
+        isolation: isolate;
+        background: transparent;
+        color: #163144;
+    }
+
+    .pos-glass::before {
+        content: '';
+        position: absolute;
+        inset: -12%;
+        z-index: -1;
+        pointer-events: none;
+        background:
+            radial-gradient(circle at 10% 15%, rgba(160, 189, 219, 0.60) 0%, transparent 34%),
+            radial-gradient(circle at 90% 10%, rgba(255, 255, 255, 0.75) 0%, transparent 30%),
+            radial-gradient(circle at 78% 88%, rgba(116, 170, 190, 0.38) 0%, transparent 38%),
+            radial-gradient(circle at 22% 92%, rgba(205, 228, 242, 0.65) 0%, transparent 36%),
+            radial-gradient(circle at 52% 48%, rgba(255, 255, 255, 0.28) 0%, transparent 42%);
+        animation: posAurora 26s ease-in-out infinite alternate;
+        will-change: transform;
+    }
+
+    @keyframes posAurora {
+        0%   { transform: translate3d(0, 0, 0) scale(1); }
+        50%  { transform: translate3d(2.5%, -2%, 0) scale(1.06); }
+        100% { transform: translate3d(-2%, 2.5%, 0) scale(1.03); }
+    }
+
+    /* ---------- Top bar / strips / cart column ---------- */
+    .pos-glass-header {
+        background: linear-gradient(180deg, rgba(246, 251, 250, 0.82) 0%, rgba(236, 245, 243, 0.62) 100%);
+        backdrop-filter: blur(28px) saturate(180%);
+        -webkit-backdrop-filter: blur(28px) saturate(180%);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.85);
+        box-shadow:
+            inset 0 1px 0 rgba(255, 255, 255, 0.9),
+            0 8px 28px -14px rgba(22, 49, 68, 0.22);
+    }
+
+    .pos-glass-bar {
+        background: linear-gradient(180deg, rgba(255, 255, 255, 0.38) 0%, rgba(255, 255, 255, 0.22) 100%);
+        backdrop-filter: blur(16px) saturate(160%);
+        -webkit-backdrop-filter: blur(16px) saturate(160%);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.65);
+    }
+
+    .pos-glass-aside {
+        background: linear-gradient(180deg, rgba(255, 255, 255, 0.58) 0%, rgba(255, 255, 255, 0.34) 100%);
+        backdrop-filter: blur(30px) saturate(170%);
+        -webkit-backdrop-filter: blur(30px) saturate(170%);
+        border-left: 1px solid rgba(255, 255, 255, 0.8);
+        box-shadow:
+            inset 1px 0 0 rgba(255, 255, 255, 0.7),
+            -16px 0 44px -22px rgba(22, 49, 68, 0.25);
+    }
+
+    .pos-glass-toast {
+        background: var(--toast-tint, rgba(255, 255, 255, 0.72));
+        backdrop-filter: blur(24px) saturate(190%);
+        -webkit-backdrop-filter: blur(24px) saturate(190%);
+        box-shadow:
+            inset 0 1px 0 rgba(255, 255, 255, 0.85),
+            0 18px 40px -14px rgba(22, 49, 68, 0.35);
+        animation: posToastIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
+    }
+
+    @keyframes posToastIn {
+        0%   { opacity: 0; transform: translateY(-10px) scale(0.96); }
+        100% { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    /* ---------- Surfaces: white cards → frosted water glass ---------- */
+    :where(.pos-glass) .bg-white,
+    :where(.pos-glass) [class*="bg-white/"] {
+        background: linear-gradient(145deg, rgba(255, 255, 255, 0.68) 0%, rgba(255, 255, 255, 0.40) 100%);
+        border-color: rgba(255, 255, 255, 0.78);
+        box-shadow:
+            inset 0 1px 0 rgba(255, 255, 255, 0.95),
+            inset 0 -1px 0 rgba(255, 255, 255, 0.28),
+            0 10px 28px -14px rgba(22, 49, 68, 0.20);
+    }
+
+    /* Chips / inner wells */
+    :where(.pos-glass) .bg-slate-50,
+    :where(.pos-glass) .bg-slate-100 {
+        background: rgba(255, 255, 255, 0.50);
+        border-color: rgba(255, 255, 255, 0.75);
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.85);
+    }
+
+    :where(.pos-glass) .bg-slate-50\/40,
+    :where(.pos-glass) .bg-slate-50\/50,
+    :where(.pos-glass) .bg-slate-50\/60,
+    :where(.pos-glass) .bg-slate-50\/70,
+    :where(.pos-glass) .bg-slate-50\/80 {
+        background: rgba(255, 255, 255, 0.38);
+    }
+
+    /* Pastel status tints become translucent so the glass still shows through */
+    :where(.pos-glass) .bg-blue-50    { background-color: color-mix(in srgb, #e2edf6 68%, transparent); }
+    :where(.pos-glass) .bg-emerald-50 { background-color: color-mix(in srgb, #d1fae5 62%, transparent); }
+    :where(.pos-glass) .bg-amber-50   { background-color: color-mix(in srgb, #fef3c7 62%, transparent); }
+    :where(.pos-glass) .bg-red-50,
+    :where(.pos-glass) .bg-rose-50    { background-color: color-mix(in srgb, #ffe4e6 62%, transparent); }
+    :where(.pos-glass) .bg-indigo-50  { background-color: color-mix(in srgb, #e0e7ff 62%, transparent); }
+
+    /* Borders */
+    :where(.pos-glass) .border-slate-200,
+    :where(.pos-glass) .border-slate-200\/80,
+    :where(.pos-glass) .border-slate-200\/90 {
+        border-color: rgba(255, 255, 255, 0.72);
+    }
+
+    :where(.pos-glass) .border-slate-100,
+    :where(.pos-glass) .border-slate-300 {
+        border-color: rgba(22, 49, 68, 0.09);
+    }
+
+    :where(.pos-glass) .divide-slate-100 > :not(:last-child),
+    :where(.pos-glass) .divide-slate-200 > :not(:last-child) {
+        border-color: rgba(22, 49, 68, 0.08);
+    }
+
+    /* Typography colours → deep arctic navy palette (high contrast on glass) */
+    :where(.pos-glass) .text-slate-900,
+    :where(.pos-glass) .text-slate-800 { color: #0e1e2b; }
+    :where(.pos-glass) .text-slate-700 { color: #1b3549; }
+    :where(.pos-glass) .text-slate-600 { color: #2a4459; }
+    :where(.pos-glass) .text-slate-500 { color: #3a5367; }
+    :where(.pos-glass) .text-slate-400 { color: #4d6678; }
+
+    :where(.pos-glass) ::placeholder {
+        color: #566f81;
+        opacity: 1;
+    }
+
+    /* Tiny uppercase captions: a bit heavier so they never fade into the glass */
+    :where(.pos-glass) [class*="uppercase"][class*="tracking-"] {
+        font-weight: 800;
+    }
+
+    /* ---------- Primary buttons: glossy deep-blue "glass bead" ---------- */
+    :where(.pos-glass) .bg-blue-600 {
+        background: linear-gradient(180deg, #4d7fb3 0%, #2c527a 100%);
+        box-shadow:
+            inset 0 1px 0 rgba(255, 255, 255, 0.45),
+            inset 0 -1px 0 rgba(0, 0, 0, 0.12),
+            0 8px 18px -8px rgba(22, 49, 68, 0.55);
+    }
+
+    :where(.pos-glass) .bg-blue-700 {
+        background: linear-gradient(180deg, #386797 0%, #1f3f5d 100%);
+    }
+
+    :where(.pos-glass) .from-blue-600 { --tw-gradient-from: #4d7fb3; }
+    :where(.pos-glass) .to-indigo-600 { --tw-gradient-to: #163144; }
+    :where(.pos-glass) .hover\:from-blue-700:hover { --tw-gradient-from: #386797; }
+    :where(.pos-glass) .hover\:to-indigo-700:hover { --tw-gradient-to: #0e1e2b; }
+
+    :where(.pos-glass) .bg-emerald-600 {
+        background: linear-gradient(180deg, #34b583 0%, #0f8a5f 100%);
+        box-shadow:
+            inset 0 1px 0 rgba(255, 255, 255, 0.4),
+            0 8px 18px -8px rgba(15, 138, 95, 0.55);
+    }
+
+    /* ---------- Interactive feel ---------- */
+    .pos-glass button,
+    .pos-glass a {
+        transition:
+            background-color 0.22s cubic-bezier(0.16, 1, 0.3, 1),
+            border-color 0.22s cubic-bezier(0.16, 1, 0.3, 1),
+            color 0.22s cubic-bezier(0.16, 1, 0.3, 1),
+            box-shadow 0.22s cubic-bezier(0.16, 1, 0.3, 1),
+            transform 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .pos-glass button:not(:disabled):hover {
+        transform: translateY(-1px);
+    }
+
+    .pos-glass button:not(:disabled):active {
+        transform: translateY(0) scale(0.97);
+    }
+
+    /* Product cards: clean glass tiles (tanpa animasi kilau/sheen) */
+    :where(.pos-glass) .group.relative.rounded-2xl {
+        backdrop-filter: blur(14px) saturate(160%);
+        -webkit-backdrop-filter: blur(14px) saturate(160%);
+        transition:
+            transform 0.15s ease,
+            box-shadow 0.15s ease,
+            border-color 0.15s ease;
+    }
+
+    :where(.pos-glass) .group.relative.rounded-2xl:hover {
+        transform: translateY(-2px);
+        box-shadow:
+            inset 0 1px 0 rgba(255, 255, 255, 1),
+            0 10px 22px -10px rgba(22, 49, 68, 0.20);
+    }
+
+    /* ---------- Inputs ---------- */
+    .pos-glass input:not([type="checkbox"]):not([type="radio"]),
+    .pos-glass select,
+    .pos-glass textarea {
+        background: rgba(255, 255, 255, 0.60);
+        border-color: rgba(22, 49, 68, 0.14);
+        box-shadow: inset 0 1px 3px rgba(22, 49, 68, 0.06);
+        color: #163144;
+    }
+
+    .pos-glass input:not([type="checkbox"]):not([type="radio"]):focus,
+    .pos-glass select:focus,
+    .pos-glass textarea:focus {
+        background: rgba(255, 255, 255, 0.92);
+        border-color: #5080b0;
+        box-shadow:
+            0 0 0 4px rgba(80, 128, 176, 0.20),
+            inset 0 1px 3px rgba(22, 49, 68, 0.04);
+    }
+
+    /* ---------- Modals: dense frosted panels ---------- */
+    .pos-glass .fixed.inset-0 > div.bg-white,
+    .pos-glass .fixed.inset-0 > div[class*="bg-white/"],
+    .pos-glass .fixed.inset-0 > div > div.bg-white {
+        background: linear-gradient(160deg, rgba(255, 255, 255, 0.95) 0%, rgba(242, 249, 247, 0.90) 100%);
+        backdrop-filter: blur(40px) saturate(185%);
+        -webkit-backdrop-filter: blur(40px) saturate(185%);
+        border: 1px solid rgba(255, 255, 255, 0.9);
+        box-shadow:
+            inset 0 1px 0 rgba(255, 255, 255, 1),
+            0 30px 70px -20px rgba(14, 30, 43, 0.45);
+    }
+
+    /* Inner wells / chips inside modals: brighter & denser for readability */
+    :where(.pos-glass .fixed.inset-0) .bg-slate-50,
+    :where(.pos-glass .fixed.inset-0) .bg-slate-100 {
+        background: rgba(255, 255, 255, 0.78);
+        border-color: rgba(22, 49, 68, 0.10);
+    }
+
+    :where(.pos-glass .fixed.inset-0) .bg-blue-50 {
+        background-color: color-mix(in srgb, #dbe9f5 92%, transparent);
+    }
+
+    :where(.pos-glass .fixed.inset-0) .bg-emerald-50 {
+        background-color: color-mix(in srgb, #d1fae5 92%, transparent);
+    }
+
+    :where(.pos-glass .fixed.inset-0) .bg-amber-50 {
+        background-color: color-mix(in srgb, #fef3c7 92%, transparent);
+    }
+
+    :where(.pos-glass .fixed.inset-0) .bg-red-50,
+    :where(.pos-glass .fixed.inset-0) .bg-rose-50 {
+        background-color: color-mix(in srgb, #ffe4e6 92%, transparent);
+    }
+
+    /* ---------- Struk (receipt paper) must stay solid white ---------- */
+    :where(.pos-glass) #printable-receipt,
+    #printable-receipt.bg-white {
+        background: #ffffff !important;
+        box-shadow: 0 14px 34px -14px rgba(22, 49, 68, 0.35) !important;
+        backdrop-filter: none !important;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .pos-glass::before { animation: none; }
+    }
+}

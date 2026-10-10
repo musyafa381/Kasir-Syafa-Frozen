@@ -1,0 +1,23 @@
+<svg viewBox="0 0 800 800" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+        <linearGradient id="dropTopDark" x1="60" y1="30" x2="160" y2="120" gradientUnits="userSpaceOnUse">
+            <stop offset="0%" stop-color="#38BDF8" />
+            <stop offset="100%" stop-color="#0ea5e9" />
+        </linearGradient>
+        <linearGradient id="dropBottomDark" x1="40" y1="80" x2="140" y2="170" gradientUnits="userSpaceOnUse">
+            <stop offset="0%" stop-color="#0284C7" />
+            <stop offset="100%" stop-color="#38BDF8" />
+        </linearGradient>
+    </defs>
+    <!-- Solid Dark Arctic Navy Background -->
+    <rect width="800" height="800" fill="#163144" />
+    <!-- Centered Logo Mark on Top -->
+    <g transform="translate(190, 80) scale(2.1)">
+        <path d="M140 40 C100 25 55 55 60 95 C62 110 75 115 90 115 C115 115 135 105 138 85 C142 65 140 40 140 40 Z" fill="url(#dropTopDark)" />
+        <path d="M60 160 C100 175 145 145 140 105 C138 90 125 85 110 85 C85 85 65 95 62 115 C58 135 60 160 60 160 Z" fill="url(#dropBottomDark)" />
+    </g>
+    <!-- Centered Typography in White & Cyan -->
+    <text x="400" y="540" text-anchor="middle" font-family="'Urbanist', system-ui, -apple-system, sans-serif" font-weight="900" font-size="78" fill="#FFFFFF" letter-spacing="6">SYAFA</text>
+    <text x="400" y="605" text-anchor="middle" font-family="'Urbanist', system-ui, -apple-system, sans-serif" font-weight="800" font-size="32" fill="#38BDF8" letter-spacing="12">FROZEN FOOD</text>
+    <text x="400" y="650" text-anchor="middle" font-family="'Urbanist', system-ui, -apple-system, sans-serif" font-weight="700" font-size="15" fill="#94A3B8" letter-spacing="8">PREMIUM &amp; HYGIENIC</text>
+</svg>

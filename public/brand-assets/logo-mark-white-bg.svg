@@ -1,0 +1,19 @@
+<svg viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+        <linearGradient id="dropTop" x1="150" y1="75" x2="400" y2="300" gradientUnits="userSpaceOnUse">
+            <stop offset="0%" stop-color="#38BDF8" />
+            <stop offset="100%" stop-color="#0284C7" />
+        </linearGradient>
+        <linearGradient id="dropBottom" x1="100" y1="200" x2="350" y2="425" gradientUnits="userSpaceOnUse">
+            <stop offset="0%" stop-color="#0284C7" />
+            <stop offset="100%" stop-color="#163144" />
+        </linearGradient>
+    </defs>
+    <!-- Solid White Background -->
+    <rect width="500" height="500" fill="#FFFFFF" />
+    <!-- Centered Logo Mark -->
+    <g transform="translate(0, 0) scale(2.5)">
+        <path d="M140 40 C100 25 55 55 60 95 C62 110 75 115 90 115 C115 115 135 105 138 85 C142 65 140 40 140 40 Z" fill="url(#dropTop)" />
+        <path d="M60 160 C100 175 145 145 140 105 C138 90 125 85 110 85 C85 85 65 95 62 115 C58 135 60 160 60 160 Z" fill="url(#dropBottom)" />
+    </g>
+</svg>

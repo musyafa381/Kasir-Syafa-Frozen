@@ -1,0 +1,830 @@
+@import 'tailwindcss';
+@import './pos-glass.css';
+
+[x-cloak] {
+    display: none !important;
+}
+
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+@source '../../storage/framework/views/*.php';
+@source '../**/*.blade.php';
+@source '../**/*.js';
+
+@theme {
+    --font-sans: 'Urbanist', system-ui, -apple-system, sans-serif;
+    --font-mono: 'Urbanist', system-ui, -apple-system, sans-serif;
+
+    /* Tema Frozen Blue (#A0BDDB) & Deep Arctic Navy (#163144) */
+    --color-blue-50: #f1f6fa;
+    --color-blue-100: #e2edf6;
+    --color-blue-200: #c9dfef;
+    --color-blue-300: #a0bddb;
+    --color-blue-400: #749ec6;
+    --color-blue-500: #5080b0;
+    --color-blue-600: #386797;
+    --color-blue-700: #2c527a;
+    --color-blue-800: #244262;
+    --color-blue-900: #163144;
+    --color-blue-950: #0e1e2b;
+
+    --color-frozen-50: #f4f8fc;
+    --color-frozen-100: #e5f0f8;
+    --color-frozen-200: #c9dfef;
+    --color-frozen-300: #a0bddb;
+    --color-frozen-400: #749ec6;
+    --color-frozen-500: #5080b0;
+    --color-frozen-600: #386797;
+    --color-frozen-700: #2c527a;
+    --color-frozen-800: #244262;
+    --color-frozen-900: #163144;
+    --color-frozen-950: #0e1e2b;
+}
+
+/* Universal Pure Urbanist Typography — All Elements Without Exception */
+html,
+body,
+*,
+*::before,
+*::after,
+input,
+select,
+textarea,
+button,
+optgroup,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+span,
+a,
+label,
+th,
+td,
+li,
+div,
+.font-sans,
+.font-mono,
+.font-serif,
+code,
+pre,
+kbd,
+samp,
+var,
+[class*="font-"] {
+    font-family: 'Urbanist', system-ui, -apple-system, BlinkMacSystemFont, sans-serif !important;
+    font-feature-settings: 'liga' 1, 'calt' 1;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* Tabular Numbers — Consistent widths for amounts, dates, IDs */
+.font-mono,
+[class*="font-mono"],
+td,
+th,
+.tabular-nums,
+[class*="tracking-"] {
+    font-variant-numeric: tabular-nums;
+}
+
+/* Unified Seamless Gradient Background — Light Teal to Mint (Top → Bottom) */
+html,
+body {
+    background-color: #A1C2BD !important;
+    background-image:
+        /* Subtle radial glows for depth & dimension */
+        radial-gradient(ellipse at 10% 0%, rgba(140, 175, 168, 0.3) 0%, transparent 50%),
+        radial-gradient(ellipse at 90% 10%, rgba(180, 210, 205, 0.25) 0%, transparent 45%),
+        radial-gradient(ellipse at 50% 50%, rgba(210, 232, 227, 0.2) 0%, transparent 55%),
+        radial-gradient(ellipse at 85% 85%, rgba(231, 242, 239, 0.3) 0%, transparent 50%),
+        /* Main vertical gradient: light teal → light mint */
+        linear-gradient(180deg,
+            #96b8b2 0%,
+            #A1C2BD 12%,
+            #aecbc5 25%,
+            #bcd4ce 38%,
+            #c9ded8 50%,
+            #d5e6e1 62%,
+            #e0ede9 74%,
+            #E7F2EF 86%,
+            #ecf5f3 93%,
+            #f0f7f5 100%) !important;
+    background-attachment: fixed !important;
+    background-size: cover !important;
+    min-height: 100vh;
+}
+
+.frost-canvas {
+    background: transparent !important;
+}
+
+/* Sidebar — Seamless Transparent on Desktop, Elegant Ultra-Frosted on Mobile */
+.frosted-sidebar {
+    background: transparent;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    border-right: none;
+}
+
+@media (max-width: 767px) {
+    .frosted-sidebar {
+        background: linear-gradient(180deg, rgba(161, 194, 189, 0.97) 0%, rgba(200, 222, 216, 0.98) 100%) !important;
+        backdrop-filter: blur(32px) saturate(180%) !important;
+        -webkit-backdrop-filter: blur(32px) saturate(180%) !important;
+        border-right: 1px solid rgba(255, 255, 255, 0.6) !important;
+        box-shadow: 12px 0 40px -5px rgba(22, 49, 68, 0.25) !important;
+    }
+}
+
+
+/* Glass Navbar — Frosted Glass Top Bar (Fixed Full Width Edge-to-Edge) */
+.glass-navbar {
+    background: rgba(240, 247, 245, 0.94);
+    backdrop-filter: blur(32px) saturate(180%);
+    -webkit-backdrop-filter: blur(32px) saturate(180%);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.85);
+    box-shadow: 0 2px 12px -2px rgba(22, 49, 68, 0.06);
+    transition: background-color 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease, backdrop-filter 0.25s ease;
+}
+
+/* When Scrolled: Solid frosted glass, high opacity so content is clean */
+.glass-navbar.is-scrolled {
+    background: rgba(238, 246, 244, 0.98) !important;
+    backdrop-filter: blur(36px) saturate(190%) !important;
+    -webkit-backdrop-filter: blur(36px) saturate(190%) !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.95) !important;
+    box-shadow: 0 4px 20px -2px rgba(22, 49, 68, 0.10) !important;
+}
+
+/* Translucent Glass Cards — Glassmorphism for Light Teal Background */
+.glass-card-plek {
+    background: rgba(255, 255, 255, 0.42);
+    backdrop-filter: blur(28px) saturate(160%);
+    -webkit-backdrop-filter: blur(28px) saturate(160%);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    box-shadow:
+        0 8px 32px rgba(0, 0, 0, 0.04),
+        inset 0 1px 0 rgba(255, 255, 255, 0.35);
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.glass-card-plek:hover {
+    background: rgba(255, 255, 255, 0.55);
+    transform: translateY(-2px);
+    border-color: rgba(255, 255, 255, 0.65);
+    box-shadow:
+        0 16px 40px rgba(0, 0, 0, 0.06),
+        inset 0 1px 0 rgba(255, 255, 255, 0.45);
+}
+
+.glass-pill-plek {
+    background: rgba(255, 255, 255, 0.50);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.55);
+    box-shadow: 0 2px 6px -1px rgba(22, 49, 68, 0.03);
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Action Button Utilities (Uniform rounded-full pill buttons with dark navy hover) */
+.btn-glass-action {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.375rem 0.75rem;
+    border-radius: 9999px;
+    background: rgba(255, 255, 255, 0.65);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.55);
+    color: #163144;
+    font-size: 0.75rem;
+    font-weight: 800;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    cursor: pointer;
+    text-decoration: none;
+    box-shadow: 0 2px 6px -1px rgba(22, 49, 68, 0.04);
+}
+
+.btn-glass-action:hover {
+    background-color: #163144 !important;
+    color: #ffffff !important;
+    border-color: #163144 !important;
+    box-shadow: 0 4px 14px -2px rgba(22, 49, 68, 0.35) !important;
+    transform: translateY(-1px);
+}
+
+.btn-glass-action:hover svg,
+.btn-glass-action:hover path {
+    color: #ffffff !important;
+    stroke: #ffffff !important;
+}
+
+.btn-glass-amber {
+    background: rgba(255, 255, 255, 0.65);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    color: #92400e;
+    font-weight: 800;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    cursor: pointer;
+}
+
+.btn-glass-amber:hover {
+    background-color: #d97706 !important;
+    color: #ffffff !important;
+    border-color: #d97706 !important;
+    box-shadow: 0 4px 14px -2px rgba(217, 119, 6, 0.3) !important;
+}
+
+.btn-glass-amber:hover svg,
+.btn-glass-amber:hover path {
+    color: #ffffff !important;
+    stroke: #ffffff !important;
+}
+
+.btn-glass-rose {
+    background: rgba(255, 255, 255, 0.65);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    color: #e11d48;
+    font-weight: 800;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    cursor: pointer;
+}
+
+.btn-glass-rose:hover {
+    background-color: #e11d48 !important;
+    color: #ffffff !important;
+    border-color: #e11d48 !important;
+    box-shadow: 0 4px 14px -2px rgba(225, 29, 72, 0.3) !important;
+}
+
+.btn-glass-rose:hover svg,
+.btn-glass-rose:hover path {
+    color: #ffffff !important;
+    stroke: #ffffff !important;
+}
+
+.glass-pill-dark {
+    background: #163144;
+    color: #ffffff;
+    box-shadow: 0 4px 16px -2px rgba(22, 49, 68, 0.35);
+}
+
+.floating-preview-card {
+    filter: drop-shadow(0 10px 20px rgba(22, 49, 68, 0.12));
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.glass-card-plek:hover .floating-preview-card {
+    transform: translateY(-5px) scale(1.04);
+}
+
+.hatch-chart-container {
+    background-image: radial-gradient(rgba(160, 189, 219, 0.5) 1px, transparent 0);
+    background-size: 16px 16px;
+    background-position: -8px -8px;
+}
+
+/* Ambient glow accents under/behind the cards (Plek-ketiplek to Reference Image) */
+.ambient-glow-purple {
+    position: relative;
+}
+
+.ambient-glow-purple::before {
+    content: '';
+    position: absolute;
+    top: -18px;
+    left: 20%;
+    right: 20%;
+    height: 40px;
+    background: radial-gradient(circle, rgba(168, 140, 255, 0.45) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+    filter: blur(14px);
+}
+
+.ambient-glow-coral {
+    position: relative;
+}
+
+.ambient-glow-coral::before {
+    content: '';
+    position: absolute;
+    top: -18px;
+    left: 20%;
+    right: 20%;
+    height: 40px;
+    background: radial-gradient(circle, rgba(255, 120, 150, 0.4) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+    filter: blur(14px);
+}
+
+.ambient-glow-arctic {
+    position: relative;
+}
+
+.ambient-glow-arctic::before {
+    content: '';
+    position: absolute;
+    top: -18px;
+    left: 20%;
+    right: 20%;
+    height: 40px;
+    background: radial-gradient(circle, rgba(160, 189, 219, 0.45) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+    filter: blur(14px);
+}
+
+/* Pure Native CSS Modal Scroll Lock */
+html:has(.fixed.inset-0.z-50),
+body:has(.fixed.inset-0.z-50),
+html.modal-open,
+body.modal-open {
+    overflow: hidden !important;
+    height: 100vh !important;
+    touch-action: none !important;
+    overscroll-behavior: none !important;
+}
+
+.modal-backdrop-lock {
+    overscroll-behavior: contain !important;
+    touch-action: pan-y !important;
+}
+
+/* Fast responsive touch on interactive elements (eliminates 300ms mobile delay) */
+button, a, input, select, textarea, [role="button"], [tabindex] {
+    touch-action: manipulation;
+}
+
+/* Page Transition: Smooth fade reveal (NO transform to keep position:fixed modals intact) */
+@keyframes pageRevealIn {
+    0% {
+        opacity: 0.94;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+main {
+    animation: pageRevealIn 0.15s ease-out;
+}
+
+/* ========================================================================= */
+/* UNIVERSAL SMOOTH MODAL ANIMATION SYSTEM                                  */
+/* ========================================================================= */
+
+@keyframes modalBackdropFadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes modalContentPopIn {
+    0% {
+        opacity: 0;
+        transform: scale(0.96);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.modal-backdrop-animate {
+    animation: modalBackdropFadeIn 0.22s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.modal-content-animate {
+    animation: modalContentPopIn 0.24s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* ========================================================================= */
+/* GLOBAL THEMATIC LOADING ANIMATIONS & NAVIGATION PROGRESS BAR STYLES       */
+/* ========================================================================= */
+
+/* Livewire 3 wire:navigate top progress loading bar & nprogress */
+#nprogress .bar,
+.livewire-loading-bar,
+[wire\:loading-bar],
+[wire\:navigate-progress],
+div[style*="position: fixed"][style*="top: 0"][style*="z-index: 99999"],
+div[style*="position: fixed"][style*="top: 0px"][style*="z-index: 99999"],
+div[style*="position:fixed"][style*="top:0"][style*="z-index:99999"],
+div[style*="position:fixed"][style*="top:0px"][style*="z-index:99999"],
+div[style*="background: rgb(79, 70, 229)"],
+div[style*="background: rgb(59, 130, 246)"],
+div[style*="background: rgb(37, 99, 235)"] {
+    background: linear-gradient(90deg, #163144 0%, #2c527a 30%, #386797 60%, #a0bddb 100%) !important;
+    height: 3.5px !important;
+    box-shadow: 0 0 14px rgba(22, 49, 68, 0.6), 0 0 8px rgba(160, 189, 219, 0.9) !important;
+    z-index: 999999 !important;
+}
+
+#nprogress .peg {
+    box-shadow: 0 0 10px #a0bddb, 0 0 5px #163144 !important;
+}
+
+#nprogress .spinner-icon {
+    border-top-color: #163144 !important;
+    border-left-color: #a0bddb !important;
+}
+
+/* Thematic Loading Spinners */
+.theme-spinner {
+    color: #163144;
+    border-color: rgba(22, 49, 68, 0.15);
+    border-top-color: #163144;
+    animation: spin 0.75s linear infinite;
+}
+
+/* Skeleton Loading Glow Effect */
+.skeleton-glow {
+    background: linear-gradient(90deg, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0.75) 50%, rgba(255, 255, 255, 0.4) 100%);
+    background-size: 200% 100%;
+    animation: skeletonShimmer 1.6s infinite ease-in-out;
+}
+
+@keyframes skeletonShimmer {
+    0% {
+        background-position: -200% 0;
+    }
+
+    100% {
+        background-position: 200% 0;
+    }
+}
+
+/* ========================================================================= */
+/* UNIVERSAL MODAL DESIGN SYSTEM — IDENTICAL TO POS TERMINAL MODALS         */
+/* Matches the screenshot from POS "Tambah Stok Cepat" exactly             */
+/* ========================================================================= */
+
+/* 1. Backdrop */
+.modal-backdrop-animate,
+.fixed.inset-0.z-50 {
+    backdrop-filter: blur(14px) saturate(180%) !important;
+    -webkit-backdrop-filter: blur(14px) saturate(180%) !important;
+}
+
+/* 2. Modal Box / Panel (Plek-ketiplek POS Modal) */
+.fixed.inset-0.z-50:not(.mobile-cart-page) .modal-content-animate,
+.fixed.inset-0.z-50:not(.mobile-cart-page) .glass-card-plek,
+.fixed.inset-0.z-50:not(.mobile-cart-page)>div:not([wire\:click]):not([class*="fixed"]):not(.mobile-cart-page):not([class*="mobile-cart"]),
+.fixed.z-50:not(.mobile-cart-page) .modal-content-animate {
+    background: linear-gradient(160deg, rgba(255, 255, 255, 0.98) 0%, rgba(244, 249, 247, 0.94) 100%) !important;
+    backdrop-filter: blur(40px) saturate(185%) !important;
+    -webkit-backdrop-filter: blur(40px) saturate(185%) !important;
+    border: 1px solid rgba(255, 255, 255, 0.95) !important;
+    border-radius: 32px !important;
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 1),
+        0 30px 70px -20px rgba(14, 30, 43, 0.45) !important;
+}
+
+/* Disable unwanted hover transform on modal panels */
+.fixed.inset-0.z-50:not(.mobile-cart-page) .modal-content-animate:hover,
+.fixed.inset-0.z-50:not(.mobile-cart-page) .glass-card-plek:hover,
+.fixed.inset-0.z-50:not(.mobile-cart-page)>div:hover {
+    transform: none !important;
+    background: linear-gradient(160deg, rgba(255, 255, 255, 0.98) 0%, rgba(244, 249, 247, 0.94) 100%) !important;
+}
+
+/* Mobile Bottom Sheet & Full Page Overrides */
+.mobile-cart-sheet,
+.bottom-sheet-drawer {
+    border-bottom-left-radius: 0 !important;
+    border-bottom-right-radius: 0 !important;
+    border-bottom: 0 !important;
+}
+
+.mobile-cart-page {
+    border-radius: 0 !important;
+    border: none !important;
+    max-height: 100vh !important;
+    height: 100dvh !important;
+    width: 100vw !important;
+    max-width: 100vw !important;
+    margin: 0 !important;
+    box-shadow: none !important;
+    background: linear-gradient(180deg, #A8C9C4 0%, #B8D6D1 15%, #cde1dc 40%, #e2edea 70%, #f0f6f4 100%) !important;
+}
+
+.mobile-cart-page > div,
+.mobile-cart-page > header,
+.mobile-cart-page > footer {
+    border-radius: 0 !important;
+}
+
+/* 3. Modal Header */
+.fixed.inset-0.z-50 .border-b,
+.fixed.z-50 .border-b {
+    border-bottom: 1px solid rgba(22, 49, 68, 0.08) !important;
+}
+
+/* Header icon container */
+.fixed.inset-0.z-50 .modal-content-animate .rounded-2xl {
+    border-radius: 18px;
+}
+
+/* Circular Close Button (X) */
+.fixed.inset-0.z-50 button[wire\:click*="close"]:not([type="submit"]),
+.fixed.inset-0.z-50 button[wire\:click*="set('show"]:not([type="submit"]):not([class*="px-"]):not([class*="py-"]),
+.fixed.inset-0.z-50 .modal-content-animate button.w-8.h-8 {
+    border-radius: 9999px !important;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+.fixed.inset-0.z-50 .modal-content-animate button.w-8.h-8:hover {
+    transform: scale(1.08) !important;
+}
+
+/* 4. Inner Cards & Wells (Plek-ketiplek POS Modal) */
+:where(.fixed.inset-0.z-50, .fixed.z-50) .bg-slate-50,
+:where(.fixed.inset-0.z-50, .fixed.z-50) .bg-slate-50\/40,
+:where(.fixed.inset-0.z-50, .fixed.z-50) .bg-slate-50\/50,
+:where(.fixed.inset-0.z-50, .fixed.z-50) .bg-slate-50\/60,
+:where(.fixed.inset-0.z-50, .fixed.z-50) .bg-slate-50\/70,
+:where(.fixed.inset-0.z-50, .fixed.z-50) .bg-slate-50\/80,
+:where(.fixed.inset-0.z-50, .fixed.z-50) .bg-slate-100 {
+    background: rgba(255, 255, 255, 0.82) !important;
+    border-color: rgba(22, 49, 68, 0.10) !important;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.95), 0 2px 8px -2px rgba(22, 49, 68, 0.04) !important;
+}
+
+/* Status Chips inside modals */
+:where(.fixed.inset-0.z-50, .fixed.z-50) .bg-blue-50 {
+    background-color: color-mix(in srgb, #dbe9f5 90%, transparent) !important;
+}
+
+:where(.fixed.inset-0.z-50, .fixed.z-50) .bg-emerald-50,
+:where(.fixed.inset-0.z-50, .fixed.z-50) .bg-emerald-100 {
+    background-color: color-mix(in srgb, #d1fae5 92%, transparent) !important;
+}
+
+:where(.fixed.inset-0.z-50, .fixed.z-50) .bg-amber-50,
+:where(.fixed.inset-0.z-50, .fixed.z-50) .bg-amber-100 {
+    background-color: color-mix(in srgb, #fef3c7 92%, transparent) !important;
+}
+
+:where(.fixed.inset-0.z-50, .fixed.z-50) .bg-red-50,
+:where(.fixed.inset-0.z-50, .fixed.z-50) .bg-rose-50,
+:where(.fixed.inset-0.z-50, .fixed.z-50) .bg-rose-100 {
+    background-color: color-mix(in srgb, #ffe4e6 92%, transparent) !important;
+}
+
+/* 5. Inputs inside modals (smooth water-glass like POS) */
+.fixed.inset-0.z-50 input:not([type="checkbox"]):not([type="radio"]):not([type="file"]),
+.fixed.inset-0.z-50 select,
+.fixed.inset-0.z-50 textarea {
+    background: rgba(255, 255, 255, 0.88) !important;
+    border: 1px solid rgba(22, 49, 68, 0.16) !important;
+    color: #163144 !important;
+    border-radius: 16px !important;
+    box-shadow: inset 0 1px 2px rgba(22, 49, 68, 0.04) !important;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+.fixed.inset-0.z-50 input:not([type="checkbox"]):not([type="radio"]):not([type="file"]):focus,
+.fixed.inset-0.z-50 select:focus,
+.fixed.inset-0.z-50 textarea:focus {
+    background: #ffffff !important;
+    border-color: #5080b0 !important;
+    box-shadow:
+        0 0 0 4px rgba(80, 128, 176, 0.18),
+        inset 0 1px 2px rgba(22, 49, 68, 0.04) !important;
+    outline: none !important;
+}
+
+.fixed.inset-0.z-50 input::placeholder,
+.fixed.inset-0.z-50 textarea::placeholder {
+    color: #647d91 !important;
+}
+
+/* 6. Modal Footers & Action Buttons */
+.fixed.inset-0.z-50 .border-t,
+.fixed.z-50 .border-t {
+    border-top: 1px solid rgba(22, 49, 68, 0.08) !important;
+}
+
+/* Cancel / Batal button (White rounded-full pill with subtle border, identical to POS screenshot) */
+.fixed.inset-0.z-50 button[wire\:click*="close"]:not([type="submit"]):not([class*="w-8"]),
+.fixed.inset-0.z-50 button[wire\:click*="set('show"]:not([type="submit"]):not([class*="bg-emerald"]):not([class*="bg-rose"]):not([class*="bg-[#163144]"]):not([class*="bg-blue"]):not([class*="bg-amber"]):not([class*="w-8"]),
+.fixed.inset-0.z-50 .modal-content-animate button.bg-slate-100:not([type="submit"]):not([class*="w-8"]):not([wire\:click*="Preset"]):not([wire\:click*="setQuick"]) {
+    background: #ffffff !important;
+    border: 1px solid rgba(22, 49, 68, 0.14) !important;
+    color: #163144 !important;
+    border-radius: 9999px !important;
+    box-shadow: 0 2px 6px -1px rgba(22, 49, 68, 0.06) !important;
+    font-weight: 800 !important;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+.fixed.inset-0.z-50 .modal-content-animate button.bg-slate-100:not([type="submit"]):not([class*="w-8"]):not([wire\:click*="Preset"]):not([wire\:click*="setQuick"]):hover {
+    background: #f8fafc !important;
+    border-color: rgba(22, 49, 68, 0.25) !important;
+    transform: translateY(-1px) !important;
+    box-shadow: 0 4px 12px -2px rgba(22, 49, 68, 0.10) !important;
+}
+
+/* Primary Submit Buttons inside modals (Glossy Arctic Navy Pill, identical to POS screenshot) */
+.fixed.inset-0.z-50 .modal-content-animate button[type="submit"],
+.fixed.inset-0.z-50 .modal-content-animate button.bg-\[\#163144\],
+.fixed.inset-0.z-50 .modal-content-animate button.bg-blue-600 {
+    background: linear-gradient(180deg, #244262 0%, #163144 100%) !important;
+    border: 1px solid rgba(255, 255, 255, 0.25) !important;
+    color: #ffffff !important;
+    border-radius: 9999px !important;
+    font-weight: 800 !important;
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.45),
+        0 8px 18px -6px rgba(22, 49, 68, 0.5) !important;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+.fixed.inset-0.z-50 .modal-content-animate button[type="submit"]:hover,
+.fixed.inset-0.z-50 .modal-content-animate button.bg-\[\#163144\]:hover,
+.fixed.inset-0.z-50 .modal-content-animate button.bg-blue-600:hover {
+    background: linear-gradient(180deg, #2c527a 0%, #1a3950 100%) !important;
+    transform: translateY(-1px) scale(1.02) !important;
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.55),
+        0 12px 24px -6px rgba(22, 49, 68, 0.55) !important;
+}
+
+.fixed.inset-0.z-50 .modal-content-animate button[type="submit"]:active,
+.fixed.inset-0.z-50 .modal-content-animate button.bg-\[\#163144\]:active,
+.fixed.inset-0.z-50 .modal-content-animate button.bg-blue-600:active {
+    transform: translateY(0) scale(0.97) !important;
+}
+
+/* Danger / Delete buttons inside modals (Glossy Rose Pill) */
+.fixed.inset-0.z-50 .modal-content-animate button.bg-rose-600,
+.fixed.inset-0.z-50 .modal-content-animate button.bg-rose-600\/90 {
+    background: linear-gradient(180deg, #f43f5e 0%, #e11d48 100%) !important;
+    border: 1px solid rgba(255, 255, 255, 0.25) !important;
+    color: #ffffff !important;
+    border-radius: 9999px !important;
+    font-weight: 800 !important;
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.45),
+        0 8px 18px -6px rgba(225, 29, 72, 0.45) !important;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+.fixed.inset-0.z-50 .modal-content-animate button.bg-rose-600:hover,
+.fixed.inset-0.z-50 .modal-content-animate button.bg-rose-600\/90:hover {
+    background: linear-gradient(180deg, #fb7185 0%, #e11d48 100%) !important;
+    transform: translateY(-1px) scale(1.02) !important;
+}
+
+/* Amber / Warning buttons inside modals */
+.fixed.inset-0.z-50 .modal-content-animate button.bg-amber-600,
+.fixed.inset-0.z-50 .modal-content-animate button.bg-amber-600\/90 {
+    background: linear-gradient(180deg, #f59e0b 0%, #d97706 100%) !important;
+    border: 1px solid rgba(255, 255, 255, 0.25) !important;
+    color: #ffffff !important;
+    border-radius: 9999px !important;
+    font-weight: 800 !important;
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.45),
+        0 8px 18px -6px rgba(217, 119, 6, 0.45) !important;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+/* Emerald / Success buttons inside modals */
+.fixed.inset-0.z-50 .modal-content-animate button.bg-emerald-600,
+.fixed.inset-0.z-50 .modal-content-animate button.bg-emerald-600\/90 {
+    background: linear-gradient(180deg, #10b981 0%, #059669 100%) !important;
+    border: 1px solid rgba(255, 255, 255, 0.25) !important;
+    color: #ffffff !important;
+    border-radius: 9999px !important;
+    font-weight: 800 !important;
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.45),
+        0 8px 18px -6px rgba(5, 150, 105, 0.45) !important;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+/* Typography inside modals */
+.fixed.inset-0.z-50 h1,
+.fixed.inset-0.z-50 h2,
+.fixed.inset-0.z-50 h3 {
+    color: #163144 !important;
+    font-weight: 900 !important;
+}
+
+.fixed.inset-0.z-50 label {
+    color: #163144 !important;
+    font-weight: 800 !important;
+}
+
+/* Quick preset buttons (+5, +10, etc.) */
+.fixed.inset-0.z-50 .modal-content-animate button[wire\:click*="Preset"],
+.fixed.inset-0.z-50 .modal-content-animate button[wire\:click*="setQuick"] {
+    border-radius: 9999px !important;
+    font-weight: 800 !important;
+}
+
+/* Printable Receipts stay solid white */
+.fixed.inset-0.z-50 #sales-receipt-printable,
+.fixed.inset-0.z-50 #printable-receipt {
+    background: #ffffff !important;
+}
+
+/* ==========================================================================
+   Apple iOS / Dynamic Island Top Notification Physics & Animation
+   ========================================================================== */
+@keyframes appleNotificationDrop {
+    0% {
+        opacity: 0;
+        transform: translate3d(0, -42px, 0) scale(0.85);
+        filter: blur(6px);
+    }
+    60% {
+        opacity: 1;
+        transform: translate3d(0, 5px, 0) scale(1.02);
+        filter: blur(0px);
+    }
+    82% {
+        transform: translate3d(0, -2px, 0) scale(0.99);
+    }
+    100% {
+        opacity: 1;
+        transform: translate3d(0, 0, 0) scale(1);
+    }
+}
+
+@keyframes appleNotificationRetract {
+    0% {
+        opacity: 1;
+        transform: translate3d(0, 0, 0) scale(1);
+        filter: blur(0px);
+    }
+    100% {
+        opacity: 0;
+        transform: translate3d(0, -40px, 0) scale(0.88);
+        filter: blur(6px);
+    }
+}
+
+.apple-toast-animate {
+    animation: appleNotificationDrop 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+.apple-toast-exit {
+    animation: appleNotificationRetract 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+/* ========================================================================= */
+/* CONFIRMATION DIALOGS — identical look & motion to the global logout       */
+/* confirm (customConfirm). Overrides the universal opaque modal panel.      */
+/* ========================================================================= */
+@keyframes confirmBackdropIn  { from { opacity: 0; } to { opacity: 1; } }
+@keyframes confirmBackdropOut { from { opacity: 1; } to { opacity: 0; } }
+@keyframes confirmCardIn {
+    from { opacity: 0; transform: translateY(1rem) scale(0.95); }
+    to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+@keyframes confirmCardOut {
+    from { opacity: 1; transform: translateY(0) scale(1); }
+    to   { opacity: 0; transform: translateY(1rem) scale(0.95); }
+}
+
+.fixed.inset-0.z-50.confirm-backdrop {
+    background: rgba(14, 30, 43, 0.55) !important;
+    backdrop-filter: blur(12px) !important;
+    -webkit-backdrop-filter: blur(12px) !important;
+    animation: confirmBackdropIn 0.3s ease-out both;
+}
+
+.fixed.inset-0.z-50:not(.mobile-cart-page) > div.confirm-card {
+    background: rgba(255, 255, 255, 0.30) !important;
+    backdrop-filter: blur(40px) !important;
+    -webkit-backdrop-filter: blur(40px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.5) !important;
+    border-radius: 28px !important;
+    box-shadow: 0 25px 50px -12px rgba(22, 49, 68, 0.3) !important;
+    animation: confirmCardIn 0.3s ease-out both;
+}
+
+.fixed.inset-0.z-50.confirm-backdrop.confirm-leaving {
+    animation: confirmBackdropOut 0.2s ease-in both;
+    pointer-events: none;
+}
+
+.fixed.inset-0.z-50.confirm-backdrop.confirm-leaving > div.confirm-card {
+    animation: confirmCardOut 0.2s ease-in both !important;
+}
