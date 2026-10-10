@@ -1,5 +1,5 @@
 <div 
-    class="pos-glass flex flex-col h-screen w-full text-slate-800 antialiased select-none overflow-hidden font-sans"
+    class="pos-glass flex flex-col h-screen h-[100dvh] max-h-[100dvh] w-full text-slate-800 antialiased select-none overflow-hidden font-sans"
     x-data="posTerminalData()"
     @focus-search.window="focusSearch(true)"
 >
@@ -302,10 +302,10 @@
     <!-- ================= STEP 1: KATALOG & KERANJANG BELANJA =================== -->
     <!-- ========================================================================= -->
     @if($currentStep === 'catalog')
-        <div class="flex-1 flex flex-col lg:flex-row overflow-hidden relative">
+        <div class="flex-1 min-h-0 flex flex-col md:flex-row overflow-hidden relative">
 
             <!-- ================= KOLOM KIRI (KATALOG PRODUK) ================= -->
-            <main class="flex-1 flex flex-col h-full overflow-hidden bg-transparent">
+            <main class="flex-1 min-h-0 min-w-0 flex flex-col h-full overflow-hidden bg-transparent">
 
                 <!-- Search Bar Cepat (Desktop, Tablet & Mobile) -->
                 <div class="p-2.5 sm:p-3 pos-glass-bar flex items-center gap-2 sm:gap-3 shrink-0">
@@ -586,8 +586,8 @@
                 </div>
             </main>
 
-            <!-- ================= KOLOM KANAN (SIDEBAR KERANJANG - DESKTOP & TABLET) ================= -->
-            <aside class="hidden lg:flex flex-col w-80 xl:w-96 2xl:w-[400px] shrink-0 pos-glass-aside h-full">
+            <!-- ================= KOLOM KANAN (SIDEBAR KERANJANG - TABLET & DESKTOP) ================= -->
+            <aside class="hidden md:flex flex-col w-80 lg:w-96 xl:w-[400px] shrink-0 pos-glass-aside h-full max-h-full overflow-hidden">
 
                 <!-- Cart Header -->
                 <div class="p-3.5 border-b border-white/60 flex items-center justify-between bg-transparent shrink-0">
@@ -666,10 +666,10 @@
                     </button>
                 </div>
 
-                <!-- Cart Items Scrollable List -->
-                <div class="flex-1 overflow-y-auto p-3 space-y-2">
+                <!-- Cart Items Scrollable List (Scrolls independently without pushing footer) -->
+                <div class="flex-1 min-h-0 overflow-y-auto p-2.5 sm:p-3 space-y-2">
                     @if(empty($cart))
-                        <div class="flex flex-col items-center justify-center h-48 text-center text-slate-400 px-4">
+                        <div class="flex flex-col items-center justify-center py-6 sm:py-10 my-auto text-center text-slate-400 px-4">
                             <p class="font-bold text-xs text-slate-600">Keranjang masih kosong</p>
                             <p class="text-[11px] text-slate-400 mt-0.5">Klik produk di katalog atau scan barcode untuk menambahkan item.</p>
                         </div>
@@ -779,8 +779,8 @@
                     @endif
                 </div>
 
-                <!-- Ringkasan Pembayaran Bawah (Desktop) -->
-                <div class="p-3.5 bg-slate-50 border-t border-slate-200 space-y-2.5">
+                <!-- Ringkasan Pembayaran Bawah (Firmly Pinned at Bottom of Cart on Tablet & Desktop) -->
+                <div class="p-2.5 sm:p-3.5 bg-slate-50 border-t border-slate-200 space-y-2 sm:space-y-2.5 shrink-0 mt-auto shadow-[0_-4px_16px_rgba(22,49,68,0.03)]">
                     <div class="space-y-1 text-xs text-slate-600">
                         @if($this->getNumericDiscountAmount() > 0)
                             <div class="flex justify-between items-center text-rose-600 font-semibold text-xs py-0.5">
@@ -799,16 +799,16 @@
 
                     <div class="flex items-baseline justify-between">
                         <span class="text-xs font-bold uppercase tracking-wider text-slate-700">Total Tagihan</span>
-                        <span class="text-xl font-black text-blue-600">
+                        <span class="text-lg sm:text-xl font-black text-blue-600">
                             Rp {{ number_format($this->grandTotal, 0, ',', '.') }}
                         </span>
                     </div>
 
-                    <!-- Tombol Lanjut ke Halaman Pembayaran (Desktop) -->
+                    <!-- Tombol Lanjut ke Halaman Pembayaran -->
                     <button 
                         wire:click="goToPayment"
                         @if(empty($cart)) disabled @endif
-                        class="w-full py-3.5 px-4 rounded-xl bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white font-black text-sm flex items-center justify-between transition shadow-md shadow-blue-600/20 cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
+                        class="w-full py-2.5 sm:py-3.5 px-3 sm:px-4 rounded-xl bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white font-black text-xs sm:text-sm flex items-center justify-between transition shadow-md shadow-blue-600/20 cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
                     >
                         <span>Lanjut ke Pembayaran</span>
                         <span class="font-mono text-xs bg-white/20 px-2 py-0.5 rounded-lg">
@@ -820,7 +820,7 @@
 
             <!-- ================= MOBILE FLOATING BOTTOM BAR ================= -->
             @if(!$mobileCartOpen)
-                <div class="lg:hidden fixed bottom-6 sm:bottom-8 inset-x-3.5 sm:inset-x-6 z-30 pointer-events-none max-w-lg mx-auto">
+                <div class="md:hidden fixed bottom-6 sm:bottom-8 inset-x-3.5 sm:inset-x-6 z-30 pointer-events-none max-w-lg mx-auto">
                     <div class="pointer-events-auto glass-card-plek bg-white/95 backdrop-blur-xl rounded-2xl p-2 sm:p-2.5 flex items-center justify-between gap-2.5 shadow-[0_12px_36px_-6px_rgba(22,49,68,0.22),0_4px_14px_rgba(22,49,68,0.08)] border border-white/90">
                         
                         <!-- Tappable Cart Summary -->
@@ -870,7 +870,7 @@
             <!-- ================= MOBILE CART DEDICATED FULL-PAGE VIEW ================= -->
             @if($mobileCartOpen)
                 <div 
-                    class="lg:hidden fixed inset-0 z-50 flex flex-col mobile-cart-page overflow-hidden select-none"
+                    class="md:hidden fixed inset-0 z-50 flex flex-col mobile-cart-page overflow-hidden select-none"
                 >
                     <!-- Mobile Page Sticky Header (Navigasi Halaman) -->
                     <header class="h-16 px-3.5 sm:px-4 bg-white/85 backdrop-blur-xl border-b border-white/70 flex items-center justify-between gap-2.5 shrink-0 shadow-xs z-20">

@@ -112,7 +112,7 @@
     </div>
 
     <!-- TOP EXECUTIVE KPI STATS CARDS (All Views) -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-2.5 sm:gap-3.5">
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-2.5">
         
         <!-- 1. Volume Transaksi (Nota) -->
         <div class="glass-card-plek rounded-[22px] p-3 sm:p-4 flex flex-col justify-between">

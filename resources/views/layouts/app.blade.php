@@ -40,9 +40,9 @@
     </style>
 </head>
 <body class="h-full text-slate-800 antialiased selection:bg-[#a0bddb]/40 selection:text-[#163144] font-sans p-0 m-0 min-h-screen" 
-      :class="sidebarOpen && window.innerWidth < 1280 ? 'overflow-hidden' : ''"
+      :class="sidebarOpen ? 'overflow-hidden md:overflow-auto' : ''"
       x-data="{ sidebarOpen: false, isScrolled: false }"
-      x-effect="if (window.innerWidth < 1280) { document.documentElement.classList.toggle('overflow-hidden', sidebarOpen); document.body.classList.toggle('overflow-hidden', sidebarOpen); }"
+      x-effect="if (window.innerWidth < 768) { document.documentElement.classList.toggle('overflow-hidden', sidebarOpen); document.body.classList.toggle('overflow-hidden', sidebarOpen); }"
       @scroll.window="isScrolled = (window.pageYOffset > 15)">
 
     <!-- Full-Width Top Navbar (Fixed Edge-to-Edge from Far Left to Far Right) -->
@@ -51,13 +51,12 @@
         :class="isScrolled ? 'is-scrolled' : ''"
     >
         <div class="w-full flex items-center justify-between px-3.5 sm:px-6 lg:px-8 h-11 sm:h-12">
-            <!-- Left: Mobile & Tablet Toggle + Brand + Page Title -->
-            <div class="flex items-center gap-2 sm:gap-3 min-w-0">
+            <!-- Left: Mobile Toggle + Brand + Page Title -->
+            <div class="flex items-center gap-2.5 sm:gap-3 min-w-0">
                 <button 
                     type="button"
                     @click="sidebarOpen = !sidebarOpen" 
-                    class="p-1 sm:p-1.5 rounded-lg hover:bg-white/60 transition text-slate-700 hover:text-[#163144] cursor-pointer shrink-0"
-                    title="Buka / Tutup Menu Navigasi"
+                    class="md:hidden p-1 rounded-lg hover:bg-white/50 transition text-slate-700 hover:text-[#163144] cursor-pointer"
                 >
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
                 </button>
@@ -74,23 +73,61 @@
                 </h2>
             </div>
 
-            <!-- Right: User Info -->
-            <div class="flex items-center gap-2 sm:gap-2.5">
-                <span class="hidden md:inline text-xs font-bold text-[#163144]">{{ auth()->user()->name ?? 'Admin' }}</span>
-                <div class="relative">
-                    <div class="w-7 h-7 rounded-full bg-white/85 text-[#163144] font-black text-[11px] flex items-center justify-center border border-white shadow-2xs uppercase">
-                        {{ substr(auth()->user()->name ?? 'U', 0, 1) }}
+            <!-- Right: User Info & Quick Logout -->
+            <div x-data="{ userMenuOpen: false }" class="relative flex items-center gap-2 sm:gap-2.5" @click.outside="userMenuOpen = false">
+                <button 
+                    type="button" 
+                    @click="userMenuOpen = !userMenuOpen"
+                    class="flex items-center gap-1.5 sm:gap-2 p-0.5 sm:px-2 sm:py-1 rounded-full hover:bg-white/60 transition cursor-pointer"
+                    title="Menu Akun & Logout"
+                >
+                    <span class="hidden md:inline text-xs font-bold text-[#163144]">{{ auth()->user()->name ?? 'Admin' }}</span>
+                    <div class="relative">
+                        <div class="w-7 h-7 rounded-full bg-white/85 text-[#163144] font-black text-[11px] flex items-center justify-center border border-white shadow-2xs uppercase">
+                            {{ substr(auth()->user()->name ?? 'U', 0, 1) }}
+                        </div>
+                        <span class="w-2 h-2 rounded-full bg-emerald-500 border border-white absolute -bottom-0.5 -right-0.5"></span>
                     </div>
-                    <span class="w-2 h-2 rounded-full bg-emerald-500 border border-white absolute -bottom-0.5 -right-0.5"></span>
+                    <svg class="w-3 h-3 text-slate-500 transition-transform duration-200 hidden sm:block" :class="userMenuOpen ? 'rotate-180 text-[#163144]' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"/></svg>
+                </button>
+
+                <!-- Dropdown Menu -->
+                <div 
+                    x-show="userMenuOpen" 
+                    x-cloak
+                    x-transition:enter="transition ease-out duration-150"
+                    x-transition:enter-start="opacity-0 translate-y-1 scale-95"
+                    x-transition:enter-end="opacity-100 translate-y-0 scale-100"
+                    x-transition:leave="transition ease-in duration-100"
+                    x-transition:leave-start="opacity-100 translate-y-0 scale-100"
+                    x-transition:leave-end="opacity-0 translate-y-1 scale-95"
+                    class="absolute right-0 top-full mt-1.5 w-48 rounded-2xl bg-white/95 backdrop-blur-xl border border-white shadow-xl shadow-[#163144]/15 p-1.5 z-50 text-slate-700"
+                >
+                    <div class="px-2.5 py-1.5 border-b border-slate-100 mb-1">
+                        <p class="text-xs font-black text-[#163144] truncate">{{ auth()->user()->name ?? 'Admin' }}</p>
+                        <p class="text-[10px] text-slate-400 capitalize font-medium">{{ auth()->user()->role ?? 'Kasir' }}</p>
+                    </div>
+                    <a href="{{ route('pos.index') }}" class="flex items-center gap-2 px-2.5 py-1.5 rounded-xl text-xs font-bold text-slate-700 hover:bg-slate-100 hover:text-[#163144] transition">
+                        <svg class="w-3.5 h-3.5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
+                        <span>POS Kasir</span>
+                    </a>
+                    <button 
+                        type="button" 
+                        @click="userMenuOpen = false; window.customConfirm ? window.customConfirm({ title: 'Konfirmasi Keluar', message: 'Apakah Anda yakin ingin mengakhiri sesi kasir dan keluar dari sistem aplikasi?', confirmText: 'Ya, Keluar', onConfirm: () => document.getElementById('logout-form').submit() }) : document.getElementById('logout-form').submit()"
+                        class="w-full flex items-center gap-2 px-2.5 py-1.5 rounded-xl text-xs font-extrabold text-rose-600 hover:bg-rose-50 transition cursor-pointer text-left"
+                    >
+                        <svg class="w-3.5 h-3.5 text-rose-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
+                        <span>Keluar (Logout)</span>
+                    </button>
                 </div>
             </div>
         </div>
     </header>
 
     <!-- Main Container Layout (Sidebar + Content Below Fixed Navbar) -->
-    <div class="w-full flex-1 flex flex-col xl:flex-row relative pt-11 sm:pt-12">
+    <div class="w-full flex-1 flex flex-col md:flex-row relative pt-11 sm:pt-12">
         
-        <!-- Mobile & Tablet Sidebar Backdrop (Smooth Blur & Fade) -->
+        <!-- Mobile Sidebar Backdrop (Smooth Blur & Fade) -->
         <div 
             x-show="sidebarOpen" 
             x-cloak
@@ -103,10 +140,10 @@
             @click="sidebarOpen = false" 
             @touchmove.prevent
             @wheel.prevent
-            class="fixed inset-0 bg-[#0e1e2b]/55 z-40 xl:hidden backdrop-blur-md"
+            class="fixed inset-0 bg-[#0e1e2b]/55 z-40 md:hidden backdrop-blur-md"
         ></div>
 
-        <!-- Sleek Frosted Sidebar (Smooth Spring Slide, Elegant on Desktop, Tablet & Mobile) -->
+        <!-- Sleek Frosted Sidebar (Smooth Spring Slide, Elegant on Desktop & Mobile) -->
         <aside 
             x-data="{ 
                 searchMenu: '',
@@ -130,11 +167,11 @@
                     return text.toLowerCase().includes(this.searchMenu.toLowerCase());
                 }
             }"
-            :class="sidebarOpen ? 'translate-x-0 shadow-2xl xl:shadow-none' : '-translate-x-full xl:translate-x-0'"
-            class="fixed xl:sticky top-0 xl:top-12 bottom-0 left-0 z-40 w-72 lg:w-76 h-dvh xl:h-[calc(100vh-48px)] frosted-sidebar text-slate-700 flex flex-col shrink-0 transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)]"
+            :class="sidebarOpen ? 'translate-x-0 shadow-2xl' : '-translate-x-full md:translate-x-0'"
+            class="fixed md:sticky top-0 md:top-12 bottom-0 left-0 z-40 w-72 lg:w-76 h-dvh md:h-[calc(100dvh-48px)] max-h-[calc(100dvh-48px)] frosted-sidebar text-slate-700 flex flex-col shrink-0 overflow-hidden transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)]"
         >
-            <!-- Mobile & Tablet Header Bar inside Drawer -->
-            <div class="flex xl:hidden items-center justify-between px-4 pt-3 pb-2 border-b border-white/40 shrink-0">
+            <!-- Mobile Header Bar inside Drawer -->
+            <div class="flex md:hidden items-center justify-between px-4 pt-3 pb-2 border-b border-white/40 shrink-0">
                 <span class="text-xs font-black text-[#163144] tracking-tight uppercase">Navigasi Kasir</span>
                 <button 
                     type="button" 
@@ -147,27 +184,27 @@
             </div>
 
             <!-- Search & Quick Action Buttons -->
-            <div class="p-4 pb-2 shrink-0">
+            <div class="px-3.5 pt-2 pb-1.5 shrink-0">
 
                 <!-- 2 Segmented Big Square Action Buttons (Home & Dashboard) -->
-                <div class="grid grid-cols-2 gap-2 mt-1">
-                    <a href="{{ route('pos.index') }}" wire:navigate.hover class="p-2.5 rounded-2xl glass-pill-plek hover:glass-card-plek text-center flex flex-col items-center justify-center gap-1 group transition">
-                        <div class="w-7 h-7 rounded-xl bg-white/60 flex items-center justify-center text-[#163144] group-hover:scale-110 transition-transform shadow-2xs">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
+                <div class="grid grid-cols-2 gap-2 mt-0.5">
+                    <a href="{{ route('pos.index') }}" wire:navigate.hover class="p-2 rounded-xl glass-pill-plek hover:glass-card-plek text-center flex flex-col items-center justify-center gap-1 group transition">
+                        <div class="w-6 h-6 rounded-lg bg-white/60 flex items-center justify-center text-[#163144] group-hover:scale-110 transition-transform shadow-2xs">
+                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
                         </div>
-                        <span class="text-xs font-black text-[#163144] block">POS Kasir</span>
+                        <span class="text-[11px] font-black text-[#163144] block">POS Kasir</span>
                     </a>
-                    <a href="{{ route('admin.dashboard') }}" wire:navigate.hover class="p-2.5 rounded-2xl {{ request()->routeIs('admin.dashboard') ? 'bg-white/90 text-[#163144] shadow-sm border border-white' : 'glass-pill-plek' }} text-center flex flex-col items-center justify-center gap-1 group transition">
-                        <div class="w-7 h-7 rounded-xl {{ request()->routeIs('admin.dashboard') ? 'bg-[#163144] text-white' : 'bg-white/60 text-[#163144]' }} flex items-center justify-center group-hover:scale-110 transition-transform shadow-2xs">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z"/></svg>
+                    <a href="{{ route('admin.dashboard') }}" wire:navigate.hover class="p-2 rounded-xl {{ request()->routeIs('admin.dashboard') ? 'bg-white/90 text-[#163144] shadow-sm border border-white' : 'glass-pill-plek' }} text-center flex flex-col items-center justify-center gap-1 group transition">
+                        <div class="w-6 h-6 rounded-lg {{ request()->routeIs('admin.dashboard') ? 'bg-[#163144] text-white' : 'bg-white/60 text-[#163144]' }} flex items-center justify-center group-hover:scale-110 transition-transform shadow-2xs">
+                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z"/></svg>
                         </div>
-                        <span class="text-xs font-black {{ request()->routeIs('admin.dashboard') ? 'text-[#163144]' : 'text-slate-600' }} block">Dashboard</span>
+                        <span class="text-[11px] font-black {{ request()->routeIs('admin.dashboard') ? 'text-[#163144]' : 'text-slate-600' }} block">Dashboard</span>
                     </a>
                 </div>
             </div>
 
-            <!-- Accordion Nav Links List -->
-            <nav @click="if (window.innerWidth < 1280 && $event.target.closest('a')) sidebarOpen = false" class="flex-1 overflow-y-auto px-4 py-2 pb-16 space-y-1.5 no-scrollbar">
+            <!-- Accordion Nav Links List (Scrolls independently if menus are tall) -->
+            <nav class="flex-1 min-h-0 overflow-y-auto px-3.5 py-1.5 space-y-1 no-scrollbar">
                 @if(auth()->user()->isAdmin())
                 <!-- Dropdown 1: Penjualan (TRX) -->
                 @php
@@ -643,8 +680,8 @@
                 @endif
             </nav>
 
-            <!-- Bottom Dock Area (Elevated with comfortable bottom breathing room) -->
-            <div class="px-3.5 pt-2 pb-6 sm:pb-7 mb-1.5 shrink-0 space-y-2 mt-auto">
+            <!-- Bottom Dock Area (Pinned firmly at bottom of sidebar on all screen sizes) -->
+            <div class="px-3 py-2 shrink-0 space-y-1.5 mt-auto border-t border-white/50 bg-white/40 backdrop-blur-md shadow-[0_-4px_16px_rgba(22,49,68,0.04)]">
                 <!-- Mini Icon Bar -->
                 <div class="flex items-center justify-around py-0 text-slate-400">
                     <!-- Icon 1: Mode Matahari (Belum Fungsi Dulu) -->
@@ -690,7 +727,7 @@
                         <button 
                             type="button" 
                             @click="window.customConfirm ? window.customConfirm({ title: 'Konfirmasi Keluar', message: 'Apakah Anda yakin ingin mengakhiri sesi kasir dan keluar dari sistem aplikasi?', confirmText: 'Ya, Keluar', onConfirm: () => document.getElementById('logout-form').submit() }) : document.getElementById('logout-form').submit()"
-                            class="w-full py-1.5 px-3 rounded-full bg-rose-600/85 hover:bg-rose-700 active:scale-[0.98] text-white font-extrabold text-xs text-center flex items-center justify-center gap-1.5 transition-all duration-200 shadow-sm shadow-rose-950/20 border border-rose-400/30 hover:shadow-md cursor-pointer group"
+                            class="w-full py-1.5 px-3 rounded-full bg-rose-600/90 hover:bg-rose-700 active:scale-[0.98] text-white font-extrabold text-xs text-center flex items-center justify-center gap-1.5 transition-all shadow-xs border border-rose-400/30 cursor-pointer group"
                         >
                             <svg class="w-3.5 h-3.5 text-rose-100 transition-transform group-hover:-translate-x-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>

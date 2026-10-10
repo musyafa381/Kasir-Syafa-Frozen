@@ -33,7 +33,7 @@
     <!-- ========================================================================= -->
     <!-- ROW 1: TOP 4 PREVIEW FLOATING CARDS (Tight Gaps & Matching Curvature) === -->
     <!-- ========================================================================= -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-2.5 sm:gap-3.5">
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-3">
         
         <!-- Card 1: Plus Action Card / Quick POS Launcher (Matches Left '+' Card in Reference) -->
         <a href="{{ route('pos.index') }}" wire:navigate class="glass-card-plek p-3 sm:p-5 rounded-[22px] flex flex-col justify-between group cursor-pointer relative overflow-hidden min-h-[120px] sm:min-h-[135px]">
